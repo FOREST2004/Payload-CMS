@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url'
 
 import config from '@/payload.config'
 import './styles.css'
+import { RegisterForm } from './RegisterForm'
 
 export default async function HomePage() {
   const headers = await getHeaders()
@@ -68,6 +69,10 @@ export default async function HomePage() {
           >
             Go to admin panel
           </a>
+          <a className="admin" href="admin/logout">
+            Logout
+          </a>
+          {/* logout chữa cháy, Reusable Payload Server Functions có hàm logout, dùng lại nó sẽ tiện hơn */}
           <a
             className="docs"
             href="https://payloadcms.com/docs"
@@ -77,6 +82,7 @@ export default async function HomePage() {
             Documentation
           </a>
         </div>
+        <RegisterForm />
       </div>
       <div className="footer">
         <p>Update this page by editing</p>
