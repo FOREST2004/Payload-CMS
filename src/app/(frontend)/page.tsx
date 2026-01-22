@@ -11,7 +11,37 @@ export default async function HomePage() {
   const headers = await getHeaders()
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
+  // 1. In ra headers
+  console.log('🔍 Headers:', Object.fromEntries(headers.entries()))
+
+  // 2. In ra cookie cụ thể
+  const cookie = headers.get('cookie')
+  console.log('🍪 Cookie:', cookie)
+
+  // // 3. Gọi auth và đo thời gian
+  // console.time('⏱️ payload.auth')
   const { user } = await payload.auth({ headers })
+  console.log(
+    '👤 User:',
+    user
+      ? {
+          id: user.id,
+          email: user.email,
+        }
+      : 'Chưa đăng nhập',
+  )
+
+  const allUsers = await payload.find({
+    collection: 'users',
+    select: { email: true, createdAt: true },
+  })
+  console.log('📋 All users:', allUsers.docs)
+
+  const allMedia = await payload.find({
+    collection: 'media',
+    depth: 0,
+  })
+  console.log('🖼️ All media:', allMedia.docs)
 
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
 
