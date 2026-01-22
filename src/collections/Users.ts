@@ -6,8 +6,16 @@ export const Users: CollectionConfig = {
     useAsTitle: 'email',
   },
   auth: true,
-  fields: [
-    // Email added by default
-    // Add more fields as needed
-  ],
+  fields: [],
+  // fields: [
+  //   {
+  //     name: 'role',
+  //     type: 'select',
+  //     options: ['admin', 'user'],
+  //     defaultValue: 'user',
+  //   },
+  // ],
+  // access: {
+  //   admin: ({ req }) => (req.user as any)?.role === 'admin', // Chỉ admin vào panel
+  // },
 }
