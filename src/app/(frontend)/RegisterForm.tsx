@@ -1,22 +1,47 @@
-'use client'
+// 'use client'
 
-import { createUser } from './actions'
-import { useState } from 'react'
+// import { createUser } from './actions'
+// import { useState } from 'react'
+import { getPayload } from 'payload'
+import config from '@/payload.config'
+
+export async function createUser(data: { email: string; password: string }) {
+  const payload = await getPayload({ config })
+
+  try {
+    const user = await payload.create({
+      collection: 'users',
+      data: {
+        email: data.email,
+        password: data.password,
+        role: 'user',
+      },
+      // overrideAccess: false,
+    })
+    console.log('✅ Created user (server action):', user.email)
+    return { success: true, user }
+  } catch (error) {
+    console.error('❌ Error creating user (server action):', error)
+    return { success: false, error: (error as Error).message }
+  }
+}
 
 export function RegisterForm() {
-  const [message, setMessage] = useState('')
+  // const [message, setMessage] = useState('')
 
   async function handleSubmit(formData: FormData) {
+    'use server'
+
     const result = await createUser({
       email: formData.get('email') as string,
       password: formData.get('password') as string,
     })
 
-    if (result.success) {
-      setMessage(`✅ Tạo user thành công (use client action): ${result.user?.email}`)
-    } else {
-      setMessage(`❌ Lỗi (use client action): ${result.error}`)
-    }
+    // if (result) {
+    //   setMessage(`✅ Tạo user thành công (use client action): ${result}`)
+    // } else {
+    //   setMessage(`❌ Lỗi (use client action): ${result}`)
+    // }
   }
 
   return (
@@ -41,7 +66,7 @@ export function RegisterForm() {
           Đăng ký
         </button>
       </form>
-      {message && <p style={{ marginTop: '10px' }}>{message}</p>}
+      {/* {message && <p style={{ marginTop: '10px' }}>{message}</p>} */}
     </div>
   )
 }

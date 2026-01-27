@@ -15,7 +15,7 @@ export async function createUser(data: { email: string; password: string }) {
         password: data.password,
         role: 'user',
       },
-      overrideAccess: false,
+      // overrideAccess: false,
     })
     console.log('✅ Created user (server action):', user.email)
     return { success: true, user }
@@ -24,6 +24,15 @@ export async function createUser(data: { email: string; password: string }) {
     return { success: false, error: (error as Error).message }
   }
 }
+
+// export async function doSomething() {
+//   const payload = await getPayload({ config })
+
+//   await payload.jobs.queue({
+//     task: 'log-message',
+//     input: { message: 'Từ Server Action!' },
+//   })
+// }
 
 // Lấy tất cả users
 export async function getAllUsers() {
